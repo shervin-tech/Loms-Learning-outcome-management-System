@@ -4,7 +4,7 @@ from .models import Assessment, AssessmentLearningOutcome, StudentAssessmentResu
 
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
-    list_display = ("name", "curriculum", "type", "weight_in_course", "max_score")
+    list_display = ("curriculum", "type", "weight_in_course", "max_score")
     list_filter = ("type", "curriculum__program")
 
 

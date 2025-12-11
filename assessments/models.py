@@ -18,7 +18,7 @@ class Assessment(models.Model):
         on_delete=models.CASCADE,
         related_name="assessments",
     )
-    name = models.CharField(max_length=100)
+   
     type = models.CharField(
         max_length=20,
         choices=AssessmentType.choices,
@@ -38,11 +38,11 @@ class Assessment(models.Model):
     )
 
     def __str__(self):
-        return f"{self.curriculum.code} - {self.name}"
+        return f"{self.curriculum.code} - {self.get_type_display()}" # deleted {self.name}
 
     class Meta:
-        ordering = ["curriculum", "type", "name"]
-        unique_together = ("curriculum", "name")
+        ordering = ["curriculum", "type"]
+        unique_together = ("curriculum","type" )
         verbose_name = "Assessment"
         verbose_name_plural = "Assessments"
 
