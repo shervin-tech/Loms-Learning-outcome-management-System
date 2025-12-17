@@ -15,7 +15,7 @@ class CurriculumForm(forms.ModelForm):
             "semester",
             "ects",
             "credit",
-            "lecturer",   # 🔥 burası eklendi
+            "lecturer",  
         ]
 
     def __init__(self, *args, **kwargs):

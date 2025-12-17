@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.db.models import Q
+from django.contrib import messages
+
 from accounts.decorators import role_required
 from accounts.models import CustomUser
-from organizations.models import Program
-from .models import Curriculum
-from .forms import CurriculumForm
 
+from curriculum.models import Curriculum
+from curriculum.forms import CurriculumForm
+
+from organizations.models import Program
 
 @role_required(CustomUser.Role.STUDENT_AFFAIRS)
 def curriculum_list(request):
@@ -79,22 +81,3 @@ def curriculum_delete(request, pk):
         "curriculum/curriculum_confirm_delete.html",
         {"curriculum": curriculum},
     )
-
-@role_required(CustomUser.Role.LECTURER)
-def lecturer_dashboard(request):
-    """
-    Lecturer kendi sorumlu olduğu Curriculum'ları görsün.
-    """
-    user = request.user
-    curricula = (
-        Curriculum.objects.filter(
-            Q(lecturer=user) | Q(id__in=user.lecturer_curricula.values("id"))
-        )
-        .select_related("program")
-        .distinct()
-    )
-
-    context = {
-        "curricula": curricula,
-    }
-    return render(request, "curriculum/lecturer_dashboard.html", context)
